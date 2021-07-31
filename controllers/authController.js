@@ -60,11 +60,11 @@ async function signInUser(req, res) {
       userId: user.id,
       username: user.username,
       email: user.id,
-      token,
+      token
     };
 
     return res.status(200).json({
-      message: "Logged in succesfully",
+      message: "Logged in successfully",
       data,
     });
   } catch (error) {
