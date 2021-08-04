@@ -9,7 +9,7 @@ async function signUpUser(req, res) {
     const { email } = req.body;
     const registeredUser = await User.findOne({ email });
     if (registeredUser) {
-      return res.status(409).json({ message: "user already exists" });
+      return res.status(409).json({ message: "User already exists" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -38,10 +38,8 @@ async function signUpUser(req, res) {
       return res.status(201).json({ status: "Success", data: response });
     }
     return res.status(400).json({ message: "Error, Occurred" });
-    // const user = await newUser.save();
-    // return res.status(200).json(user);
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json({ message: "Try Again, Network Issues" });
   }
 }
 
@@ -49,10 +47,14 @@ async function signInUser(req, res) {
   try {
     const user = await User.findOne({ email: req.body.email });
 
-    !user && res.status(400).json("Wrong Credentials");
+    if (!user) {
+      return res.status(400).send({message:"Wrong Credentials"});
+    }
 
     const validate = await bcrypt.compare(req.body.password, user.password);
-    !validate && res.status(400).json("Wrong Password");
+    if (!validate) {
+      return res.status(400).json("Wrong Password");
+    }
     // const { password, ...others } = user._doc;
     const token = await generateToken({ id: user._id, email: user.email });
 
@@ -60,7 +62,7 @@ async function signInUser(req, res) {
       userId: user.id,
       username: user.username,
       email: user.id,
-      token
+      token,
     };
 
     return res.status(200).json({
@@ -69,18 +71,9 @@ async function signInUser(req, res) {
     });
   } catch (error) {
     console.log("tenorrroe");
-    return res.status(500).json({ error: "Error in registration" });
+    return res.status(400).json({ error: "Invalid Password or Email" });
   }
 }
-
-// const myFunc=async()=>{
-// 	const token = jwt.sign({id:244},"svg",{expiresIn:'10 seconds'})
-// 	console.log(token)
-
-// 	const data= jwt.verify(token, "svg");
-// 	console.log(data)
-// }
-// myFunc()
 
 module.exports = {
   signUpUser,

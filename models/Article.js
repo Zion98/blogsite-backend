@@ -25,11 +25,11 @@ const articleSchema = new Schema(
 			required: false,
 		},
         facebook: {
-			type: Array,
+			type: String,
 			required: false,
 		},
         twitter: {
-			type: Array,
+			type: String,
 			required: false,
 		},
        
@@ -40,33 +40,3 @@ const articleSchema = new Schema(
 );
 
 module.exports = mongoose.model('articleInfo', articleSchema);
-
-// const mongoose = require('mongoose');
-
-// const Schema = mongoose.Schema;
-
-// const articleSchema = new Schema(
-// 	{
-// 		fullname: {
-// 			type: String,
-// 			required: true,
-// 		},
-// 		facebook: {
-// 			type: String,
-// 			required: true,
-// 		},
-// 		twitter: {
-// 			type: String,
-// 			required: true,
-// 		},
-// 		data: {
-// 			type: String,
-// 			required: true,
-// 		},
-// 	},
-// 	{
-// 		timestamps: true,
-// 	}
-// );
-
-// module.exports = mongoose.model('articleData', articleSchema);

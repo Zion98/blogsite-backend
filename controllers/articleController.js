@@ -8,7 +8,7 @@ async function postArticle(req, res) {
 	try {
 		const { title, desc, photo, username, categories, facebook, twitter } = req.body;
 		console.log(req.body);
-		console.log("cvbfv")
+		console.log("article posted")
 		const newArticle = await new Article({
 			title,
 			desc,
@@ -91,7 +91,7 @@ async function getArticle(req, res) {
 	const catName = req.query.cat;
 
 	try {
-		console.log("rapper")
+
 		let article;
 		if (userName) {
 			article = await Article.findBy({ username });
@@ -104,7 +104,6 @@ async function getArticle(req, res) {
 		} else {
 			article = await Article.find();
 		}
-		console.log("single")
 		res.status(200).json(article);
 	} catch (error) {
 		res.status(500).json(err);
