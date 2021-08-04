@@ -31,7 +31,7 @@ async function signUpUser(req, res) {
       newUser.save();
 
       const response = {
-        newUser,
+        ...newUser._doc,
         token,
       };
 
