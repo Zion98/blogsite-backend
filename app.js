@@ -35,7 +35,7 @@ app.use(
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public");
+    cb(null, "images");
   },
   filename: (req, file, cb) => {
     cb(null, req.body.name);
@@ -47,7 +47,7 @@ const upload = multer({ storage: storage });
 app.post("/upload", auth, upload.single("file"), (req, res) => {
   console.log("file uploadingd##########");
   res.status(200).json("File has been uploaded");
-  console.log("file uploaded##########");
+
 });
 
 app.use(logger("dev"));
