@@ -5,11 +5,10 @@ const User = require("../models/User");
 const { generateToken, hashPassword, comparePassword } = require("../helpers");
 async function signUpUser(req, res) {
   try {
-    console.log("inner signup");
     const { email } = req.body;
     const registeredUser = await User.findOne({ email });
     if (registeredUser) {
-      return res.status(409).json({ message: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -24,7 +23,6 @@ async function signUpUser(req, res) {
       password: hashedPassword,
     });
 
-    console.log(newUser);
     if (newUser) {
       const token = await generateToken({ id: newUser.id, email });
 
@@ -48,7 +46,7 @@ async function signInUser(req, res) {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-      return res.status(400).send({message:"Wrong Credentials"});
+      return res.status(400).send({ message: "Wrong Credentials" });
     }
 
     const validate = await bcrypt.compare(req.body.password, user.password);
@@ -70,7 +68,6 @@ async function signInUser(req, res) {
       data,
     });
   } catch (error) {
-    console.log("tenorrroe");
     return res.status(400).json({ error: "Invalid Password or Email" });
   }
 }
